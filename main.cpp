@@ -3,6 +3,7 @@
 #include <string>
 #include <stdexcept>
 #include <limits>
+#include <unordered_map>
 #include "misc.h"
 #include "basic_opps.h"
 //#include "complex_opps.h"
@@ -124,7 +125,9 @@ int main()
                 result = abs(x);
                 break;
             case FAC:
-                result = factorial(x);
+                std::unordered_map<long double, long double> val;
+                vector<bool>visted(2000, false);
+                result = factorial(x, val, visted);
                 break;
         }
     }

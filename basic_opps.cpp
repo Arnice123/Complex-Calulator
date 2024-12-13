@@ -1,7 +1,5 @@
 #include "basic_opps.h"
 
-
-
 long double add(std::vector<long double> nums)
 {
     long double total = 0;
@@ -64,7 +62,7 @@ long double exponentiation(long double base, long double exp) {
     }
 
     if (m_floor(exp) != exp) {
-        return std::exp(std::log(base) * exp);
+        return exponentiation(M_E,(log(base, 10) * exp));
     }
 
     // Handle integer exponents using binary exponentiation

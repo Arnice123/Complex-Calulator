@@ -7,7 +7,6 @@
 #include <cstdint>
 #include <vector>
 #include <stdexcept>
-#include <cmath>
 #include <unordered_map>
 
 #ifndef M_PI
@@ -28,7 +27,6 @@ long double modulo(long double a, long double b);
 long double abs(long double x);
 long double m_floor(long double x);
 long double ciel(long double x);
-//long double factorial(long double x);
 long double factorial(long double x, std::unordered_map<long double, long double> &prevFact, std::vector<bool> &visted);
 long double fibonacci(long double x, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
 long double log(long double x, long double base);

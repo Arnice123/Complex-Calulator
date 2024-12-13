@@ -52,6 +52,8 @@
         "span": "cpp",
         "numeric": "cpp",
         "string": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "list": "cpp",
+        "xhash": "cpp"
     }
 }

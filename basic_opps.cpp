@@ -133,7 +133,7 @@ long double factorial(long double x, std::unordered_map<long double, long double
     while (visted[i+1] && i <= x) ++i;
 
     long double result = (i > 1) ? prevFact[i] : 1.0;
-    i++;
+    i = (i > 1) ? i+1: i;
     for (; i <= x; ++i) {
         result *= i;
         prevFact[i] = result;
@@ -141,6 +141,28 @@ long double factorial(long double x, std::unordered_map<long double, long double
     }
     return result;
 }
+
+long double fibonacci(long double x, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted)
+{
+    if (x < 0) throw std::invalid_argument("Needs to be positive to do fibonacci");
+    if (x == 0.0 || x == 1.0) return x;
+
+    calculatedFib[0] = 0;
+    calculatedFib[1] = 1;
+    visted[0] = true;
+    visted[1] = true;
+
+    for (long double i = 2; i <= x; ++i)
+    {
+        if (!visted[i])
+        {
+            calculatedFib[i] = calculatedFib[i-1] + calculatedFib[i-2];
+            visted[i] = true;
+        }
+    }
+    return calculatedFib[x];
+}
+
 /*
 long double factorial(long double x) {
     if (x == 0.0 || x == 1.0) return 1.0;

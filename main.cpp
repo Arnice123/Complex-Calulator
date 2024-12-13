@@ -16,11 +16,11 @@ using std::string;
 int main()
 {
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Floor\n[9]-Ciel\n[10]-Absolute Value\n[11]-Factorial\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Floor\n[9]-Ciel\n[10]-Absolute Value\n[11]-Factorial\n[12]-Fibonacci\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    int range[] = {1, 11};
+    int range[] = {1, 12};
     
     while (operation < range[0] || operation > range[1]) {
         cout << "Please enter a valid input: "; 
@@ -113,6 +113,9 @@ int main()
         cin >> x;
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+        std::unordered_map<long double, long double> val;
+        vector<bool>visted(30000, false);
+
         switch(op)
         {
             case FLO:
@@ -125,9 +128,10 @@ int main()
                 result = abs(x);
                 break;
             case FAC:
-                std::unordered_map<long double, long double> val;
-                vector<bool>visted(2000, false);
                 result = factorial(x, val, visted);
+                break;
+            case FIB:
+                result = fibonacci(x, val, visted);
                 break;
         }
     }

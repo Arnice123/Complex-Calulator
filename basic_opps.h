@@ -31,5 +31,6 @@ long double ciel(long double x);
 //long double factorial(long double x);
 long double factorial(long double x, std::unordered_map<long double, long double> &prevFact, std::vector<bool> &visted);
 long double fibonacci(long double x, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
+long double log(long double x, long double base);
 
 #endif

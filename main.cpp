@@ -16,11 +16,11 @@ using std::string;
 int main()
 {
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Floor\n[9]-Ciel\n[10]-Absolute Value\n[11]-Factorial\n[12]-Fibonacci\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Log\n[9]-Floor\n[10]-Ciel\n[11]-Absolute Value\n[12]-Factorial\n[13]-Fibonacci\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    int range[] = {1, 12};
+    int range[] = {1, 13};
     
     while (operation < range[0] || operation > range[1]) {
         cout << "Please enter a valid input: "; 
@@ -104,6 +104,9 @@ int main()
                 break;
             case MOD:
                 result = modulo(first, second);
+                break;
+            case LOG:
+                result = log(first, second);
                 break;
         }
     }

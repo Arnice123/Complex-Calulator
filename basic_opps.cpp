@@ -163,12 +163,34 @@ long double fibonacci(long double x, std::unordered_map<long double, long double
     return calculatedFib[x];
 }
 
-/*
-long double factorial(long double x) {
-    if (x == 0.0 || x == 1.0) return 1.0;
-    long double result = 1.0;
-    for (long double i = 2.0; i <= x; i++) {
-        result *= i;
+long double log(long double x, long double base = 10.0) {
+    if (x <= 0) {
+        throw std::invalid_argument("Logarithm is undefined for non-positive numbers");
     }
-    return result;
-}*/
+    
+    if (x == 1.0) return 0.0;
+    
+    int integerPart = 0;
+    long double current = 1.0;
+    
+    while (current * base <= x) {
+        current *= base;
+        integerPart++;
+    }
+    
+    long double fractionalPart = 0.0;
+    long double remainder = x / current;
+    long double multiplier = 0.5;
+    
+    for (int i = 0; i < 10; i++) {
+        long double testVal = exponentiation(base, fractionalPart + multiplier);
+        
+        if (testVal <= remainder) {
+            fractionalPart += multiplier;
+        }
+        
+        multiplier *= 0.5;
+    }
+    
+    return integerPart + fractionalPart;
+}

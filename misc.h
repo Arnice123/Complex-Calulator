@@ -11,11 +11,12 @@ enum Operations {
     EXP, // 5
     ROT, // 6
     MOD, // 7
-    FLO, // 8
-    CIE, // 9
-    ABS, // 10
-    FAC, // 11
-    FIB  // 12
+    LOG, // 8
+    FLO, // 9
+    CIE, // 10
+    ABS, // 11
+    FAC, // 13
+    FIB  // 14
 };
 
 std::string operation_to_string(enum Operations op);

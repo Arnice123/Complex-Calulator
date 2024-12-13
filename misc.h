@@ -5,13 +5,17 @@
 
 enum Operations {
     ADD = 1,
-    SUB,
-    DIV,
-    MUL,
-    EXP,
-    ROT
+    SUB, // 2
+    DIV, // 3
+    MUL, // 4
+    EXP, // 5
+    ROT, // 6
+    MOD, // 7
+    FLO, // 8
+    CIE  // 9
 };
 
 std::string operation_to_string(enum Operations op);
+std::string operation_to_string_EXP_ROT_MOD(enum Operations op);
 
 #endif // MISC_H

@@ -6,27 +6,31 @@
 #include "misc.h"
 #include "basic_opps.h"
 //#include "complex_opps.h"
-using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::vector;
+using std::string;
 
 int main()
 {
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]Exponentiation\n[6]Rooting\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]Exponentiation\n[6]Rooting\n[7]Modulo\n[8]Floor\n[9]Ciel\n";
     cin >> operation;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    int range[] = {1, 6};
+    int range[] = {1, 9};
     
     while (operation < range[0] || operation > range[1]) {
         cout << "Please enter a valid input: "; 
         cin >> operation;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
     enum Operations op = static_cast<Operations>(static_cast<int>(operation));
     long double result;
 
-    if (op < 5)
+    if (op < EXP)
     {
         vector<long double> nums;
         string input = "";
@@ -54,7 +58,7 @@ int main()
                 try {
                     nums.push_back(stold(input));
                 }
-                catch (const invalid_argument& e) {
+                catch (const std::invalid_argument& e) {
                     cout << "Invalid input. Please enter a valid number.\n";
                 }                
             }
@@ -78,16 +82,16 @@ int main()
                 break;
         }
     }
-    else{
+    else if (op < FLO){
         long double first;
         long double second;
         cout << "Input the number to be modified: ";
         cin >> first;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        cout << "Input the power/n-root power: ";
+        cout << "Input the " << operation_to_string_EXP_ROT_MOD(op) << ": ";
         cin >> second;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         
         switch(op)
         {
@@ -96,6 +100,25 @@ int main()
                 break;
             case ROT:
                 result = root(first, second, 1e-20);
+                break;
+            case MOD:
+                result = modulo(first, second);
+                break;
+        }
+    }
+    else{
+        long double x;
+        cout << "Input the number to be modified: ";
+        cin >> x;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        switch(op)
+        {
+            case FLO:
+                result = m_floor(x);
+                break;
+            case CIE:
+                result = ciel(x);
                 break;
         }
     }

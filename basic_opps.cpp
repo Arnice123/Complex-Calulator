@@ -62,8 +62,7 @@ long double exponentiation(long double base, long double exp) {
         exp = -exp;
     }
 
-    if (std::floor(exp) != exp) {
-        // Handle non-integer exponents
+    if (m_floor(exp) != exp) {
         return std::exp(std::log(base) * exp);
     }
 
@@ -89,10 +88,39 @@ long double root(long double x, long double n, long double tolerance = 1e-200)
     long double diff;
 
     do {
-        long double new_approximation = approximation - (std::pow(approximation, n) - x) / (n * std::pow(approximation, n - 1));
-        diff = std::abs(new_approximation - approximation);
+        long double new_approximation = approximation - (exponentiation(approximation, n) - x) / (n * exponentiation(approximation, n - 1));
+        diff = abs(new_approximation - approximation);
         approximation = new_approximation;
     } while (diff > tolerance);
 
     return approximation;
+}
+
+long double modulo(long double a, long double b)
+{
+    if (b == 0) {
+        throw std::invalid_argument("Division by zero");
+    }
+    return a - b * m_floor(a / b);
+}
+
+long double abs(long double x)
+{
+    return (x < 0) ? -x : x;
+}
+
+long double m_floor(long double x) {
+    long double truncated = static_cast<long long>(x);
+    if (x < 0 && x != truncated) {
+        return truncated - 1;
+    }
+    return truncated;
+}
+
+long double ciel(long double x) {
+    long double truncated = static_cast<long long>(x);
+    if (x > 0 && x != truncated) {
+        return truncated + 1;
+    }
+    return truncated;
 }

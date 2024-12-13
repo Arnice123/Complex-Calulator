@@ -192,3 +192,8 @@ long double log(long double x, long double base = 10.0) {
     
     return integerPart + fractionalPart;
 }
+
+long double percentage(long double percentage, long double number)
+{
+    return number * (percentage / 100);
+}

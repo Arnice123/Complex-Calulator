@@ -10,6 +10,7 @@ std::string operation_to_string(enum Operations op) {
         case ROT: return "root";
         case MOD: return "modulo";
         case LOG: return "log";
+        case PER: return "percentage";
         case FLO: return "floor";
         case CIE: return "ciel";
         case ABS: return "abs";
@@ -26,6 +27,7 @@ std::string operation_to_string_EXP_ROT_MOD(enum Operations op)
         case ROT: return "n-root";
         case MOD: return "divisor";
         case LOG: return "base";
+        case PER: return "number";
         default: return "Unknown operation";
     }
 }

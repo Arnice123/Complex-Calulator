@@ -12,9 +12,10 @@ enum Operations {
     ROT, // 6
     MOD, // 7
     LOG, // 8
-    FLO, // 9
-    CIE, // 10
-    ABS, // 11
+    PER, // 9
+    FLO, // 10
+    CIE, // 11
+    ABS, // 12
     FAC, // 13
     FIB  // 14
 };

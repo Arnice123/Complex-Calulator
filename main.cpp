@@ -15,11 +15,11 @@ using std::string;
 int main()
 {
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]Exponentiation\n[6]Rooting\n[7]Modulo\n[8]Floor\n[9]Ciel\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Floor\n[9]-Ciel\n[10]-Absolute Value\n[11]-Factorial\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    int range[] = {1, 9};
+    int range[] = {1, 11};
     
     while (operation < range[0] || operation > range[1]) {
         cout << "Please enter a valid input: "; 
@@ -119,6 +119,12 @@ int main()
                 break;
             case CIE:
                 result = ciel(x);
+                break;
+            case ABS:
+                result = abs(x);
+                break;
+            case FAC:
+                result = factorial(x);
                 break;
         }
     }

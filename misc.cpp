@@ -11,6 +11,8 @@ std::string operation_to_string(enum Operations op) {
         case MOD: return "modulo";
         case FLO: return "floor";
         case CIE: return "ciel";
+        case ABS: return "abs";
+        case FAC: return "factorial";
         default: return "Unknown operation";
     }
 }

@@ -16,11 +16,11 @@ using std::string;
 int main()
 {
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Log\n[9]-Percentage\n[10]-Floor\n[11]-Ciel\n[12]-Absolute Value\n[13]-Factorial\n[14]-Fibonacci\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Log\n[9]-Percentage\n[10]-Floor\n[11]-Ciel\n[12]-Absolute Value\n[13]-Factorial\n[14]-Fibonacci\n[15]-Sine\n[16]-Cosine\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    int range[] = {1, 14};
+    int range[] = {1, COS};
     
     while (operation < range[0] || operation > range[1]) {
         cout << "Please enter a valid input: "; 
@@ -97,7 +97,7 @@ int main()
         switch(op)
         {
             case EXP:
-                result = exponentiation(first, second);
+                result = pow(first, second);
                 break;
             case ROT:
                 result = root(first, second, 1e-20);
@@ -113,7 +113,7 @@ int main()
                 break;
         }
     }
-    else{
+    else if (op < SIN){
         long double x;
         cout << "Input the number to be modified: ";
         cin >> x;
@@ -141,9 +141,34 @@ int main()
                 break;
         }
     }
+    else
+    {
+        long double first;
+        long double second;
+        cout << "Input the number to be modified: ";
+        cin >> first;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+        cout << "Radians-[0] or Degrees-[1]: ";
+        cin >> second;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
+        std::unordered_map<long double, long double> val;
+        vector<bool> visted(30000, false);
+
+        first = (second) ? first * M_PI / 180: first;
+
+        switch(op)
+        {
+            case SIN:
+                result = sine(first, 10, val, visted);
+                break;
+            case COS:
+                result = cosine(first, 10, val, visted);
+                break;
+        }
+    }
 
     cout << "Result of the operation is: " << result << endl;
-
     return 0;
 }

@@ -21,7 +21,7 @@ long double add(std::vector<long double> nums);
 long double subtract(std::vector<long double> nums);
 long double multiply(std::vector<long double> nums);
 long double divide(std::vector<long double> nums);
-long double exponentiation(long double base, long double exp);
+long double pow(long double base, long double exp);
 long double root(long double x, long double n, long double tolerance);
 long double modulo(long double a, long double b);
 long double percentage(long double percentage, long double number);
@@ -31,5 +31,8 @@ long double ciel(long double x);
 long double factorial(long double x, std::unordered_map<long double, long double> &prevFact, std::vector<bool> &visted);
 long double fibonacci(long double x, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
 long double log(long double x, long double base);
+long double sine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
+long double cosine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
+double round_up(double value, int decimal_places);
 
 #endif

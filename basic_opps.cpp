@@ -49,7 +49,7 @@ long double divide(std::vector<long double> nums)
     return total;
 }
 
-long double exponentiation(long double base, long double exp) {
+long double pow(long double base, long double exp) {
     if (base == 0) {
         if (exp <= 0) throw std::domain_error("Undefined: 0 raised to a non-positive power.");
         return 0;
@@ -62,10 +62,10 @@ long double exponentiation(long double base, long double exp) {
     }
 
     if (m_floor(exp) != exp) {
-        return exponentiation(M_E,(log(base, 10) * exp));
+        return pow(M_E,(log(base, 10) * exp));
     }
 
-    // Handle integer exponents using binary exponentiation
+    // Handle integer exponents using binary pow
     long long int_exp = static_cast<long long>(exp);
     long double result = 1;
     while (int_exp > 0) {
@@ -87,7 +87,7 @@ long double root(long double x, long double n, long double tolerance = 1e-200)
     long double diff;
 
     do {
-        long double new_approximation = approximation - (exponentiation(approximation, n) - x) / (n * exponentiation(approximation, n - 1));
+        long double new_approximation = approximation - (pow(approximation, n) - x) / (n * pow(approximation, n - 1));
         diff = abs(new_approximation - approximation);
         approximation = new_approximation;
     } while (diff > tolerance);
@@ -181,7 +181,7 @@ long double log(long double x, long double base = 10.0) {
     long double multiplier = 0.5;
     
     for (int i = 0; i < 10; i++) {
-        long double testVal = exponentiation(base, fractionalPart + multiplier);
+        long double testVal = pow(base, fractionalPart + multiplier);
         
         if (testVal <= remainder) {
             fractionalPart += multiplier;
@@ -196,4 +196,35 @@ long double log(long double x, long double base = 10.0) {
 long double percentage(long double percentage, long double number)
 {
     return number * (percentage / 100);
+}
+
+long double sine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted) {
+    long double result = 0.0;
+    x = modulo(x, 2 * M_PI);
+
+    for (int n = 0; n < terms; ++n) {
+        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n + 1) / factorial(2 * n + 1, calculatedFib, visted));
+        result += term;
+    }
+
+    return round_up(result, 9);
+}
+
+long double cosine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted)
+{
+    long double result = 0.0;
+    x = modulo(x, 2 * M_PI);
+
+    for (int n = 0; n < terms; ++n) {
+        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n) / factorial(2 * n, calculatedFib, visted));
+        result += term;
+    }
+
+    return round_up(result, 9);
+}
+
+double round_up(double value, int decimal_places) 
+{
+    const double multiplier = pow(10.0, decimal_places);
+    return ciel(value * multiplier) / multiplier;
 }

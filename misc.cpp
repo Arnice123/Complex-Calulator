@@ -16,6 +16,8 @@ std::string operation_to_string(enum Operations op) {
         case ABS: return "abs";
         case FAC: return "factorial";
         case FIB: return "fibonacci";
+        case SIN: return "sine";
+        case COS: return "cosine";
         default: return "Unknown operation";
     }
 }

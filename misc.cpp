@@ -18,6 +18,10 @@ std::string operation_to_string(enum Operations op) {
         case FIB: return "fibonacci";
         case SIN: return "sine";
         case COS: return "cosine";
+        case TAN: return "tangent";
+        case ARCSIN: return "arcsine";
+        case ARCCOS: return "arccosine";
+        case ARCTAN: return "arctangent";
         default: return "Unknown operation";
     }
 }

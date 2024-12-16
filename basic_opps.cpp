@@ -49,7 +49,8 @@ long double divide(std::vector<long double> nums)
     return total;
 }
 
-long double pow(long double base, long double exp) {
+long double pow(long double base, long double exp) 
+{
     if (base == 0) {
         if (exp <= 0) throw std::domain_error("Undefined: 0 raised to a non-positive power.");
         return 0;
@@ -65,7 +66,6 @@ long double pow(long double base, long double exp) {
         return pow(base, static_cast<long double>(m_floor(exp))) * pow(base, exp - m_floor(exp));
     }
 
-    // Handle integer exponents using binary pow
     long long int_exp = static_cast<long long>(exp);
     long double result = 1;
     while (int_exp > 0) {
@@ -108,7 +108,8 @@ long double abs(long double x)
     return (x < 0) ? -x : x;
 }
 
-long double m_floor(long double x) {
+long double m_floor(long double x) 
+{
     long double truncated = static_cast<long long>(x);
     if (x < 0 && x != truncated) {
         return truncated - 1;
@@ -116,7 +117,8 @@ long double m_floor(long double x) {
     return truncated;
 }
 
-long double ciel(long double x) {
+long double ciel(long double x) 
+{
     long double truncated = static_cast<long long>(x);
     if (x > 0 && x != truncated) {
         return truncated + 1;
@@ -124,20 +126,28 @@ long double ciel(long double x) {
     return truncated;
 }
 
-long double factorial(long double x, std::unordered_map<long double, long double> &prevFact, std::vector<bool> &visted)
+long double factorial(int n, std::unordered_map<int, long double>& memo) 
 {
-    long long n = static_cast<long long>(x);
-    if (n == 0.0 || n == 1.0) return 1.0;
-    int i = 1;
-    while (visted[i+1] && i <= n) ++i;
-
-    long double result = (i > 1) ? prevFact[i] : 1.0;
-    i = (i > 1) ? i+1: i;
-    for (; i <= n; ++i) {
-        result *= i;
-        prevFact[i] = result;
-        visted[i] = true;
+    if (n < 0) {
+        throw std::invalid_argument("Factorial is not defined for negative numbers");
     }
+
+    if (n == 0 || n == 1) return 1.0L;
+
+  int largest_calculated = 1;
+    for (const auto& pair : memo) {
+        if (pair.first <= n && pair.first > largest_calculated) {
+            largest_calculated = pair.first;
+        }
+    }
+
+    long double result = (largest_calculated > 1) ? memo[largest_calculated] : 1.0L;
+
+    for (int i = (largest_calculated > 1 ? largest_calculated + 1 : 2); i <= n; ++i) {
+        result *= i;
+        memo[i] = result;
+    }
+
     return result;
 }
 
@@ -162,7 +172,8 @@ long double fibonacci(long double x, std::unordered_map<long double, long double
     return calculatedFib[x];
 }
 
-long double log(long double x, long double base = 10.0) {
+long double log(long double x, long double base = 10.0) 
+{
     if (x <= 0) {
         throw std::invalid_argument("Logarithm is undefined for non-positive numbers");
     }
@@ -199,93 +210,46 @@ long double percentage(long double percentage, long double number)
     return number * (percentage / 100);
 }
 
-long double sine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted) {
-    // Reduce angle to [-π, π] range
-    x = modulo(x, 2 * M_PI);
-
-    long double result = 0.0;
-
-    for (int n = 0; n < terms; ++n) {
-        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n + 1) / factorial(2 * n + 1, calculatedFib, visted));
-        result += term;
-    }
-
-    return result;
-}
-
-long double cosine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted)
+long double sine(long double x, int terms, std::unordered_map<int, long double>& memo) 
 {
-    // Reduce angle to [-π, π] range
     x = modulo(x, 2 * M_PI);
-     double result = 0.0;
-    double power = 1.0;
-    double factorial = 1.0;
-    
-    for (int n = 0; n < terms; ++n) {
-        // Alternate sign for each term
-        int sign = (n % 2 == 0) ? 1 : -1;
-        
-        // Compute the term: (-1)^n * x^(2n) / (2n)!
-        result += sign * (power / factorial);
-        
-        // Prepare for next iteration
-        power *= x * x;
-        factorial *= (2 * n + 2) * (2 * n + 1);
-    }
-    return result;
 
-/*
     long double result = 0.0;
 
     for (int n = 0; n < terms; ++n) {
-        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n) / factorial(2 * n, calculatedFib, visted));
-        result += term;
-    }
-
-    return result;*/
-}
-
-/*
-long double sine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted) {
-    long double result = 0.0;
-    x = modulo(x, 2 * M_PI);
-
-    for (int n = 0; n < terms; ++n) {
-        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n + 1) / factorial(2 * n + 1, calculatedFib, visted));
+        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n + 1) / factorial(2 * n + 1, memo));
         result += term;
     }
 
     return result;
 }
 
-long double cosine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted)
+long double cosine(long double x, int terms, std::unordered_map<int, long double>& memo)
 {
-    long double result = 0.0;
+
     x = modulo(x, 2 * M_PI);
-    if (x == 0) return 1;
+
+    long double result = 0.0;
 
     for (int n = 0; n < terms; ++n) {
-        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n) / factorial(2 * n, calculatedFib, visted));
+        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n) / factorial(2 * n, memo));
         result += term;
     }
-
     return result;
-}*/
+}
 
-long double tangent(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted)
+long double tangent(long double x, int terms, std::unordered_map<int, long double>& memo)
 {
      x = modulo(x, M_PI);
     if (x > M_PI/2) x -= M_PI;
 
-    // Check for undefined points more carefully
     if (abs(x - M_PI/2) < 1e-10 || abs(x + M_PI/2) < 1e-10) {
         return std::numeric_limits<long double>::quiet_NaN();
     }
 
-    long double sinx = sine(x, terms, calculatedFib, visted);
-    long double cosx = cosine(x, terms, calculatedFib, visted);
+    long double sinx = sine(x, terms, memo);
+    long double cosx = cosine(x, terms, memo);
 
-    // Avoid division by very small numbers
     if (abs(cosx) < 1e-10) {
         return std::numeric_limits<long double>::quiet_NaN();
     }
@@ -295,6 +259,51 @@ long double tangent(long double x, int terms, std::unordered_map<long double, lo
 
 long double round_up(long double value, int decimal_places) 
 {
+    if (value != value) return value;
     const long double multiplier = pow(10.0, decimal_places);
     return ciel(value * multiplier) / multiplier;
+}
+
+long double arcsine(long double x, int terms, std::unordered_map<int, long double>& memo)
+{   
+    if (x < -1 || x > 1) return std::numeric_limits<long double>::quiet_NaN();
+
+    long double result = x;  // First term
+    long double term = x;    // Current term (starts as x)
+    
+    for (int n = 1; n < terms; ++n) {
+        // Recurrence relation: term *= ((2n-1)^2 * x^2) / (2n * (2n+1))
+        term *= (2.0 * n - 1) * (2.0 * n - 1) * x * x / (2.0 * n * (2.0 * n + 1));
+        result += term;
+
+        // Stop if the term is smaller than a precision threshold
+        if (abs(term) < 1e-15) break;
+    }
+    /*long double result = 0.0;
+
+    for (int n = 0; n < terms; ++n) {
+        long double term = (factorial(2 * n, memo) * pow(x, 2 * n + 1))/(pow(4, n) * pow((factorial(n, memo)), 2) * (2 * n + 1));
+        result += term;
+    }*/
+
+    return result;
+}
+
+long double arccosine(long double x, int terms, std::unordered_map<int, long double>& memo)
+{
+    if (x < -1 || x > 1) return std::numeric_limits<long double>::quiet_NaN();
+    return M_PI/2 -arcsine(x, terms, memo);
+}
+
+long double arctangent(long double x, int terms, std::unordered_map<int, long double>& memo)
+{
+    if (x < -1 || x > 1) return std::numeric_limits<long double>::quiet_NaN();
+    long double result = 0.0;
+
+    for (int n = 0; n < terms; ++n) {
+        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n + 1) / (2 * n + 1));
+        result += term;
+    }
+
+    return result;
 }

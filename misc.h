@@ -21,6 +21,9 @@ enum Operations {
     SIN, // 15
     COS, // 16
     TAN, // 17
+    ARCSIN, // 18
+    ARCCOS, // 19
+    ARCTAN, // 20
 };
 
 std::string operation_to_string(enum Operations op);

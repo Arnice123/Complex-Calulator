@@ -1,7 +1,7 @@
 #ifndef BASIC_OPPS_H
 #define BASIC_OPPS_H
 
-
+#include <iostream>
 #include <vector>
 #include <stdexcept>
 #include <cstdint>
@@ -28,12 +28,16 @@ long double percentage(long double percentage, long double number);
 long double abs(long double x);
 long double m_floor(long double x);
 long double ciel(long double x);
-long double factorial(long double x, std::unordered_map<long double, long double> &prevFact, std::vector<bool> &visted);
+long double factorial(int n, std::unordered_map<int, long double>& memo);
+//long double factorial(long double x, std::unordered_map<long double, long double> &prevFact, std::vector<bool> &visted);
 long double fibonacci(long double x, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
 long double log(long double x, long double base);
-long double sine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
-long double cosine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
+long double sine(long double x, int terms, std::unordered_map<int, long double>& memo);
+long double cosine(long double x, int terms, std::unordered_map<int, long double>& memo);
+long double tangent(long double x, int terms, std::unordered_map<int, long double>& memo);
+long double arcsine(long double x, int terms, std::unordered_map<int, long double>& memo);
+long double arccosine(long double x, int terms, std::unordered_map<int, long double>& memo);
+long double arctangent(long double x, int terms, std::unordered_map<int, long double>& memo);
 long double round_up(long double value, int decimal_places);
-long double tangent(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted);
 
 #endif

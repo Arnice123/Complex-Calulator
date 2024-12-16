@@ -15,13 +15,12 @@ using std::string;
 
 
 int main(){
-
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Log\n[9]-Percentage\n[10]-Floor\n[11]-Ciel\n[12]-Absolute Value\n[13]-Factorial\n[14]-Fibonacci\n[15]-Sine\n[16]-Cosine\n[17]-Tangent\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Log\n[9]-Percentage\n[10]-Floor\n[11]-Ciel\n[12]-Absolute Value\n[13]-Factorial\n[14]-Fibonacci\n[15]-Sine\n[16]-Cosine\n[17]-Tangent\n[18]-Arcsine\n[19]-Arccosine\n[20]-Arctangent\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    int range[] = {1, TAN};
+    int range[] = {1, ARCTAN};
     
     while (operation < range[0] || operation > range[1]) {
         cout << "Please enter a valid input: "; 
@@ -120,8 +119,9 @@ int main(){
         cin >> x;
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        std::unordered_map<long double, long double> val;
+        std::unordered_map<int, long double> val;
         vector<bool>visted(30000, false);
+         std::unordered_map<long double, long double> values;
 
         switch(op)
         {
@@ -134,11 +134,11 @@ int main(){
             case ABS:
                 result = abs(x);
                 break;
-            case FAC:
-                result = factorial(x, val, visted);
+            case FAC:            
+                result = factorial(x, val);
                 break;
             case FIB:
-                result = fibonacci(x, val, visted);
+                result = fibonacci(x, values, visted);
                 break;
         }
     }
@@ -154,21 +154,32 @@ int main(){
         cin >> second;
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         
-        std::unordered_map<long double, long double> val;
-        vector<bool> visted(30000, false);
+        std::unordered_map<int, long double> val;
 
-        first = (second) ? first * M_PI / 180: first;
-
+        first = (second) ? ((first < ARCSIN || first > ARCTAN) ? first : first * M_PI / 180 ) : first;
+ 
         switch(op)
         {
             case SIN:
-                result = round_up(sine(first, 100, val, visted), 9);
+                result = round_up(sine(first, 100, val), 9);
                 break;
             case COS:
-                result = round_up(cosine(first, 100, val, visted), 9);
+                result = round_up(cosine(first, 100, val), 9);
                 break;
             case TAN:
-                result = round_up(tangent(first, 100, val, visted), 9);
+                result = round_up(tangent(first, 100, val), 9);
+                break;
+            case ARCSIN: // 800
+                result = arcsine(first, 1000000000, val);
+                result = round_up((second) ? result * 180 / M_PI : result, 9);
+                break;
+            case ARCCOS:
+                result = round_up(arccosine(first, 100, val), 9);
+                result = (second) ? result * 180 / M_PI : result;
+                break;
+            case ARCTAN:
+                result = round_up(arctangent(first, 100, val), 9);
+                result = (second) ? result * 180 / M_PI : result;
                 break;
         }
     }

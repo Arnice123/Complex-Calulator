@@ -17,10 +17,11 @@ using std::string;
 int main(){
     long double operation;
     cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Mean\n[6]-Exponentiation\n[7]-Rooting\n[8]-Modulo\n[9]-Log\n[10]-Percentage\n[11]-Floor\n[12]-Ciel\n[13]-Absolute Value\n[14]-Factorial\n[15]-Fibonacci\n[16]-Sine\n[17]-Cosine\n[18]-Tangent\n[19]-Arcsine\n[20]-Arccosine\n[21]-Arctangent\n";
+    cout << "\nMore complext operations:\n[22]-Sum of\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    int range[] = {1, ARCTAN};
+    int range[] = {1, SIG};
     
     while (operation < range[0] || operation > range[1]) {
         cout << "Please enter a valid input: "; 
@@ -145,7 +146,7 @@ int main(){
                 break;
         }
     }
-    else
+    else if (op < SIG)
     {
         long double first;
         long double second;
@@ -185,6 +186,24 @@ int main(){
                 result = (second) ? result * 180 / M_PI : result;
                 break;
         }
+    }
+    else if (op == SIG){
+        long double i;
+        long double n;
+        std::string operation;
+        std::unordered_map<int, long double> memo;
+        cout << "Input I: ";
+        cin >> i;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        cout << "Input N: ";
+        cin >> n;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        cout << "Input the formula: ";
+        cin >> operation;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        result = sigmaNotation(operation, i, n, memo);
     }
 
     cout << "Result of the operation is: " << result << endl;

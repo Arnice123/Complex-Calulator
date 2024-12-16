@@ -25,6 +25,8 @@ enum Operations {
     ARCSIN, // 19
     ARCCOS, // 20
     ARCTAN, // 21
+
+    SIG, // 22
 };
 
 std::string operation_to_string(enum Operations op);

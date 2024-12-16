@@ -41,7 +41,11 @@ long double arcsine(long double x, int terms, std::unordered_map<int, long doubl
 long double arccosine(long double x, int terms, std::unordered_map<int, long double>& memo);
 long double arctangent(long double x, int terms, std::unordered_map<int, long double>& memo);
 long double round_up(long double value, int decimal_places);
-long double summation(std::function<long double(long double)> operation, long double i, long double n);
+
+// complex instructions
+std::vector<std::string> tokenize(const std::string& instruction);
+std::function<long double(long double)> parseInstruction(const std::string& instruction, std::unordered_map<int, long double> &memo);
+long double sigmaNotation(const std::string& instruction, long double i, long double n, std::unordered_map<int, long double> &memo);
 
 
 #endif

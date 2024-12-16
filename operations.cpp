@@ -1,4 +1,4 @@
-#include "basic_opps.h"
+#include "operations.h"
 
 long double add(std::vector<long double> nums)
 {
@@ -312,8 +312,125 @@ long double arctangent(long double x, int terms, std::unordered_map<int, long do
     return result;
 }
 
-long double summation(std::function<long double(long double)> func, long double i, long double n)
+std::vector<std::string> tokenize(const std::string& instruction)
 {
+    std::vector<std::string> tokens;
+    std::string token;
+
+    for (char ch : instruction)
+    {
+        if (std::isspace(ch)) continue;
+
+        if (std::isdigit(ch) || ch == '.')
+        {
+            token += ch;
+        }
+        else
+        {
+            if (!token.empty())
+            {
+                tokens.push_back(token);
+                token.clear();
+            }
+            tokens.push_back(std::string(1, ch));
+        }
+
+        if (!token.empty())
+        {
+            tokens.push_back(token);
+            token.clear();
+        }
+    }
+
+    return tokens;
+}
+
+std::function<long double(long double)> parseInstruction(const std::string& instruction, std::unordered_map<int, long double> &memo)
+{
+    auto tokens = tokenize(instruction);
+    std::function<long double(long double)> func = [](long double x) { return x; };
+
+    for (size_t i = 0; i < tokens.size(); ++i)
+    {
+        if (tokens[i] == "*")
+        {
+            long double multiplier = std::stold(tokens[++i]);
+            auto prevFunc = func;
+            func = [prevFunc, multiplier](long double x)
+            {
+                return prevFunc(x) * multiplier;
+            };
+        }
+        else if (tokens[i] == "/")
+        {
+            long double divisor = std::stold(tokens[++i]);
+            auto prevFunc = func;
+            func = [prevFunc, divisor](long double x)
+            {
+                return prevFunc(x) / divisor;
+            };
+        }
+        else if (tokens[i] == "+")
+        {
+            long double adder = std::stold(tokens[++i]);
+            auto prevFunc = func;
+            func = [prevFunc, adder](long double x)
+            {
+                return prevFunc(x) + adder;
+            };
+        }
+        else if (tokens[i] == "-")
+        {
+            long double subtractor = std::stold(tokens[++i]);
+            auto prevFunc = func;
+            func = [prevFunc, subtractor](long double x)
+            {
+                return prevFunc(x) - subtractor;
+            };
+        }
+        else if (tokens[i] == "!")
+        {
+            auto prevFunc = func;
+            func = [prevFunc, &memo](long double x)
+            {
+                return factorial(prevFunc(x), memo);
+            };
+        }
+        else if (tokens[i] == "%")
+        {
+            long double divisor = std::stold(tokens[++i]);
+            auto prevFunc = func;
+            func = [prevFunc, divisor](long double x)
+            {
+                return modulo(prevFunc(x), divisor);
+            };
+        }
+        else if (tokens[i] == "^")
+        {
+            long double power = std::stold(tokens[++i]);
+            auto prevFunc = func;
+            func = [prevFunc, power](long double x)
+            {
+                return pow(prevFunc(x), power);
+            };
+        }
+        else if (std::isdigit(tokens[i][0]) || tokens[i][0] == '.')
+        {
+            long double constant = std::stold(tokens[i]);
+            auto prevFunc = func;
+            func = [prevFunc, constant](long double x)
+            {
+                return prevFunc(x) * constant;
+            };
+        }
+    }
+
+    return func;
+}
+
+long double sigmaNotation(const std::string& instruction, long double i, long double n, std::unordered_map<int, long double> &memo)
+{
+    std::function<long double(long double)> func = parseInstruction(instruction, memo);
     long double total = 0;
     for (; i <= n; ++i)
     {

@@ -54,6 +54,9 @@
         "string": "cpp",
         "unordered_map": "cpp",
         "list": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "deque": "cpp",
+        "functional": "cpp",
+        "stack": "cpp"
     }
 }

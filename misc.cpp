@@ -23,6 +23,7 @@ std::string operation_to_string(enum Operations op) {
         case ARCSIN: return "arcsine";
         case ARCCOS: return "arccosine";
         case ARCTAN: return "arctangent";
+        case SIG: return "sum of";
         default: return "Unknown operation";
     }
 }

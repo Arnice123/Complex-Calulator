@@ -49,6 +49,11 @@ long double divide(std::vector<long double> nums)
     return total;
 }
 
+long double mean(std::vector<long double> nums)
+{
+    return add(nums)/nums.size();
+}
+
 long double pow(long double base, long double exp) 
 {
     if (base == 0) {
@@ -268,23 +273,21 @@ long double arcsine(long double x, int terms, std::unordered_map<int, long doubl
 {   
     if (x < -1 || x > 1) return std::numeric_limits<long double>::quiet_NaN();
 
-    long double result = x;  // First term
-    long double term = x;    // Current term (starts as x)
+    if (x > 0.5) {
+        return M_PI/2 - arcsine(root((1 - x * x), 2), terms, memo);
+    } else if (x < -0.5) {
+        return -M_PI/2 - arcsine(root((1 - x * x), 2), terms, memo);
+    }
+
+    long double result = x;
+    long double term = x;
     
     for (int n = 1; n < terms; ++n) {
-        // Recurrence relation: term *= ((2n-1)^2 * x^2) / (2n * (2n+1))
         term *= (2.0 * n - 1) * (2.0 * n - 1) * x * x / (2.0 * n * (2.0 * n + 1));
         result += term;
 
-        // Stop if the term is smaller than a precision threshold
         if (abs(term) < 1e-15) break;
     }
-    /*long double result = 0.0;
-
-    for (int n = 0; n < terms; ++n) {
-        long double term = (factorial(2 * n, memo) * pow(x, 2 * n + 1))/(pow(4, n) * pow((factorial(n, memo)), 2) * (2 * n + 1));
-        result += term;
-    }*/
 
     return result;
 }
@@ -299,11 +302,22 @@ long double arctangent(long double x, int terms, std::unordered_map<int, long do
 {
     if (x < -1 || x > 1) return std::numeric_limits<long double>::quiet_NaN();
     long double result = 0.0;
-
+    long double term = x;
     for (int n = 0; n < terms; ++n) {
-        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n + 1) / (2 * n + 1));
+        if (n > 0) term *= -x * x * (2 * n - 1) / (2 * n + 1); 
         result += term;
+        if (abs(term) < 1e-15) break;
     }
 
     return result;
+}
+
+long double summation(std::function<long double(long double)> func, long double i, long double n)
+{
+    long double total = 0;
+    for (; i <= n; ++i)
+    {
+        total += func(i);
+    }
+    return total;
 }

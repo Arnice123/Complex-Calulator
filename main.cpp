@@ -5,7 +5,7 @@
 #include <limits>
 #include <unordered_map>
 #include "misc.h"
-#include "basic_opps.h"
+#include "operations.h"
 //#include "complex_opps.h"
 using std::cout;
 using std::cin;
@@ -16,7 +16,7 @@ using std::string;
 
 int main(){
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Log\n[9]-Percentage\n[10]-Floor\n[11]-Ciel\n[12]-Absolute Value\n[13]-Factorial\n[14]-Fibonacci\n[15]-Sine\n[16]-Cosine\n[17]-Tangent\n[18]-Arcsine\n[19]-Arccosine\n[20]-Arctangent\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Mean\n[6]-Exponentiation\n[7]-Rooting\n[8]-Modulo\n[9]-Log\n[10]-Percentage\n[11]-Floor\n[12]-Ciel\n[13]-Absolute Value\n[14]-Factorial\n[15]-Fibonacci\n[16]-Sine\n[17]-Cosine\n[18]-Tangent\n[19]-Arcsine\n[20]-Arccosine\n[21]-Arctangent\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -80,6 +80,9 @@ int main(){
                 break;
             case DIV:
                 result = divide(nums);
+                break;
+            case MEA:
+                result = mean(nums);
                 break;
         }
     }
@@ -169,8 +172,8 @@ int main(){
             case TAN:
                 result = round_up(tangent(first, 100, val), 9);
                 break;
-            case ARCSIN: // 800
-                result = arcsine(first, 1000000000, val);
+            case ARCSIN:
+                result = arcsine(first, 100, val);
                 result = round_up((second) ? result * 180 / M_PI : result, 9);
                 break;
             case ARCCOS:

@@ -6,6 +6,7 @@ std::string operation_to_string(enum Operations op) {
         case SUB: return "subtract";
         case DIV: return "divide";
         case MUL: return "multiply";
+        case MEA: return "calulate the mean of";
         case EXP: return "exponentiate";
         case ROT: return "root";
         case MOD: return "modulo";

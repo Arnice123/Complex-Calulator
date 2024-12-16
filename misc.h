@@ -8,22 +8,23 @@ enum Operations {
     SUB, // 2
     DIV, // 3
     MUL, // 4
-    EXP, // 5
-    ROT, // 6
-    MOD, // 7
-    LOG, // 8
-    PER, // 9
-    FLO, // 10
-    CIE, // 11
-    ABS, // 12
-    FAC, // 13
-    FIB, // 14
-    SIN, // 15
-    COS, // 16
-    TAN, // 17
-    ARCSIN, // 18
-    ARCCOS, // 19
-    ARCTAN, // 20
+    MEA, // 5
+    EXP, // 6
+    ROT, // 7
+    MOD, // 8
+    LOG, // 9
+    PER, // 10
+    FLO, // 11
+    CIE, // 12
+    ABS, // 13
+    FAC, // 14
+    FIB, // 15
+    SIN, // 16
+    COS, // 17
+    TAN, // 18
+    ARCSIN, // 19
+    ARCCOS, // 20
+    ARCTAN, // 21
 };
 
 std::string operation_to_string(enum Operations op);

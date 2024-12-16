@@ -13,14 +13,15 @@ using std::endl;
 using std::vector;
 using std::string;
 
-int main()
-{
+
+int main(){
+
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Log\n[9]-Percentage\n[10]-Floor\n[11]-Ciel\n[12]-Absolute Value\n[13]-Factorial\n[14]-Fibonacci\n[15]-Sine\n[16]-Cosine\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Exponentiation\n[6]-Rooting\n[7]-Modulo\n[8]-Log\n[9]-Percentage\n[10]-Floor\n[11]-Ciel\n[12]-Absolute Value\n[13]-Factorial\n[14]-Fibonacci\n[15]-Sine\n[16]-Cosine\n[17]-Tangent\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    int range[] = {1, COS};
+    int range[] = {1, TAN};
     
     while (operation < range[0] || operation > range[1]) {
         cout << "Please enter a valid input: "; 
@@ -161,10 +162,13 @@ int main()
         switch(op)
         {
             case SIN:
-                result = sine(first, 10, val, visted);
+                result = round_up(sine(first, 100, val, visted), 9);
                 break;
             case COS:
-                result = cosine(first, 10, val, visted);
+                result = round_up(cosine(first, 100, val, visted), 9);
+                break;
+            case TAN:
+                result = round_up(tangent(first, 100, val, visted), 9);
                 break;
         }
     }

@@ -19,7 +19,8 @@ enum Operations {
     FAC, // 13
     FIB, // 14
     SIN, // 15
-    COS  // 16
+    COS, // 16
+    TAN, // 17
 };
 
 std::string operation_to_string(enum Operations op);

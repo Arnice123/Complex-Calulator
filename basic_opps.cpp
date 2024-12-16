@@ -62,7 +62,7 @@ long double pow(long double base, long double exp) {
     }
 
     if (m_floor(exp) != exp) {
-        return pow(M_E,(log(base, 10) * exp));
+        return pow(base, static_cast<long double>(m_floor(exp))) * pow(base, exp - m_floor(exp));
     }
 
     // Handle integer exponents using binary pow
@@ -126,13 +126,14 @@ long double ciel(long double x) {
 
 long double factorial(long double x, std::unordered_map<long double, long double> &prevFact, std::vector<bool> &visted)
 {
-    if (x == 0.0 || x == 1.0) return 1.0;
+    long long n = static_cast<long long>(x);
+    if (n == 0.0 || n == 1.0) return 1.0;
     int i = 1;
-    while (visted[i+1] && i <= x) ++i;
+    while (visted[i+1] && i <= n) ++i;
 
     long double result = (i > 1) ? prevFact[i] : 1.0;
     i = (i > 1) ? i+1: i;
-    for (; i <= x; ++i) {
+    for (; i <= n; ++i) {
         result *= i;
         prevFact[i] = result;
         visted[i] = true;
@@ -199,6 +200,53 @@ long double percentage(long double percentage, long double number)
 }
 
 long double sine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted) {
+    // Reduce angle to [-π, π] range
+    x = modulo(x, 2 * M_PI);
+
+    long double result = 0.0;
+
+    for (int n = 0; n < terms; ++n) {
+        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n + 1) / factorial(2 * n + 1, calculatedFib, visted));
+        result += term;
+    }
+
+    return result;
+}
+
+long double cosine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted)
+{
+    // Reduce angle to [-π, π] range
+    x = modulo(x, 2 * M_PI);
+     double result = 0.0;
+    double power = 1.0;
+    double factorial = 1.0;
+    
+    for (int n = 0; n < terms; ++n) {
+        // Alternate sign for each term
+        int sign = (n % 2 == 0) ? 1 : -1;
+        
+        // Compute the term: (-1)^n * x^(2n) / (2n)!
+        result += sign * (power / factorial);
+        
+        // Prepare for next iteration
+        power *= x * x;
+        factorial *= (2 * n + 2) * (2 * n + 1);
+    }
+    return result;
+
+/*
+    long double result = 0.0;
+
+    for (int n = 0; n < terms; ++n) {
+        long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n) / factorial(2 * n, calculatedFib, visted));
+        result += term;
+    }
+
+    return result;*/
+}
+
+/*
+long double sine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted) {
     long double result = 0.0;
     x = modulo(x, 2 * M_PI);
 
@@ -207,24 +255,46 @@ long double sine(long double x, int terms, std::unordered_map<long double, long 
         result += term;
     }
 
-    return round_up(result, 9);
+    return result;
 }
 
 long double cosine(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted)
 {
     long double result = 0.0;
     x = modulo(x, 2 * M_PI);
+    if (x == 0) return 1;
 
     for (int n = 0; n < terms; ++n) {
         long double term = (n % 2 == 0 ? 1 : -1) * (pow(x, 2 * n) / factorial(2 * n, calculatedFib, visted));
         result += term;
     }
 
-    return round_up(result, 9);
+    return result;
+}*/
+
+long double tangent(long double x, int terms, std::unordered_map<long double, long double> &calculatedFib, std::vector<bool> &visted)
+{
+     x = modulo(x, M_PI);
+    if (x > M_PI/2) x -= M_PI;
+
+    // Check for undefined points more carefully
+    if (abs(x - M_PI/2) < 1e-10 || abs(x + M_PI/2) < 1e-10) {
+        return std::numeric_limits<long double>::quiet_NaN();
+    }
+
+    long double sinx = sine(x, terms, calculatedFib, visted);
+    long double cosx = cosine(x, terms, calculatedFib, visted);
+
+    // Avoid division by very small numbers
+    if (abs(cosx) < 1e-10) {
+        return std::numeric_limits<long double>::quiet_NaN();
+    }
+
+    return sinx / cosx;
 }
 
-double round_up(double value, int decimal_places) 
+long double round_up(long double value, int decimal_places) 
 {
-    const double multiplier = pow(10.0, decimal_places);
+    const long double multiplier = pow(10.0, decimal_places);
     return ciel(value * multiplier) / multiplier;
 }

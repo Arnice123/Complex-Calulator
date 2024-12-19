@@ -16,8 +16,8 @@ using std::string;
 
 int main(){
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Mean\n[6]-Exponentiation\n[7]-Rooting\n[8]-Modulo\n[9]-Log\n[10]-Percentage\n[11]-Floor\n[12]-Ciel\n[13]-Absolute Value\n[14]-Factorial\n[15]-Fibonacci\n[16]-Sine\n[17]-Cosine\n[18]-Tangent\n[19]-Arcsine\n[20]-Arccosine\n[21]-Arctangent\n";
-    cout << "\nMore complext operations:\n[22]-Sum of\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Mean\n[6]-Standard Deviation\n[7]-Exponentiation\n[8]-Rooting\n[9]-Modulo\n[10]-Log\n[11]-Percentage\n[12]-Floor\n[13]-Ciel\n[14]-Absolute Value\n[15]-Factorial\n[16]-Fibonacci\n[17]-Sine\n[18]-Cosine\n[19]-Tangent\n[20]-Arcsine\n[21]-Arccosine\n[22]-Arctangent\n[23]-Random Number\n";
+    cout << "\nMore complext operations:\n[24]-Sum of\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -85,6 +85,9 @@ int main(){
             case MEA:
                 result = mean(nums);
                 break;
+            case STA:
+                result = standard_deviation(nums);
+                break;
         }
     }
     else if (op < FLO){
@@ -146,7 +149,7 @@ int main(){
                 break;
         }
     }
-    else if (op < SIG)
+    else if (op < RAN)
     {
         long double first;
         long double second;
@@ -186,6 +189,19 @@ int main(){
                 result = (second) ? result * 180 / M_PI : result;
                 break;
         }
+    }
+    else if (op == RAN)
+    {
+        long double i;
+        long double n;
+        cout << "Input min(inclusive): ";
+        cin >> i;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        cout << "Input max(exclusive): ";
+        cin >> n;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        result = random_num(i, n);
     }
     else if (op == SIG){
         long double i;

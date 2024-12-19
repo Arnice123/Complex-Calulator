@@ -7,6 +7,7 @@ std::string operation_to_string(enum Operations op) {
         case DIV: return "divide";
         case MUL: return "multiply";
         case MEA: return "calulate the mean of";
+        case STA: return "get the standard deviation of";
         case EXP: return "exponentiate";
         case ROT: return "root";
         case MOD: return "modulo";
@@ -23,6 +24,7 @@ std::string operation_to_string(enum Operations op) {
         case ARCSIN: return "arcsine";
         case ARCCOS: return "arccosine";
         case ARCTAN: return "arctangent";
+        case RAN: return "random";
         case SIG: return "sum of";
         default: return "Unknown operation";
     }

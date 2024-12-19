@@ -54,6 +54,19 @@ long double mean(std::vector<long double> nums)
     return add(nums)/nums.size();
 }
 
+long double standard_deviation(std::vector<long double> nums)
+{
+    long double _mean = mean(nums);
+    size_t size = nums.size();
+    for (size_t i = 0; i < size; ++i)
+    {
+        nums[i] -= _mean;
+        nums[i] = pow(nums[i], 2);
+    }
+    long double new_mean = mean(nums);
+    return root(new_mean, 2, 1.0E-200L);
+}
+
 long double pow(long double base, long double exp) 
 {
     if (base == 0) {
@@ -310,6 +323,15 @@ long double arctangent(long double x, int terms, std::unordered_map<int, long do
     }
 
     return result;
+}
+
+long double random_num(long double min, long double max)
+{
+    auto moment1 = std::chrono::steady_clock::now().time_since_epoch().count();
+    auto moment2 = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    auto combined = moment1 ^ moment2;
+    long double normalized = modulo(combined, 1000000000LL) / 1000000000.0;
+    return min + normalized * (max - min);
 }
 
 std::vector<std::string> tokenize(const std::string& instruction)

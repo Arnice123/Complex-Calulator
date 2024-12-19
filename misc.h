@@ -9,24 +9,26 @@ enum Operations {
     DIV, // 3
     MUL, // 4
     MEA, // 5
-    EXP, // 6
-    ROT, // 7
-    MOD, // 8
-    LOG, // 9
-    PER, // 10
-    FLO, // 11
-    CIE, // 12
-    ABS, // 13
-    FAC, // 14
-    FIB, // 15
-    SIN, // 16
-    COS, // 17
-    TAN, // 18
-    ARCSIN, // 19
-    ARCCOS, // 20
-    ARCTAN, // 21
+    STA, // 6
+    EXP, // 7
+    ROT, // 8
+    MOD, // 9
+    LOG, // 10
+    PER, // 11
+    FLO, // 12
+    CIE, // 13
+    ABS, // 14
+    FAC, // 15
+    FIB, // 16
+    SIN, // 17
+    COS, // 18
+    TAN, // 19
+    ARCSIN, // 20
+    ARCCOS, // 21
+    ARCTAN, // 22
+    RAN, // 23
 
-    SIG, // 22
+    SIG, // 24
 };
 
 std::string operation_to_string(enum Operations op);

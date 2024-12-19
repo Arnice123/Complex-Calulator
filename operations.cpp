@@ -334,6 +334,21 @@ long double random_num(long double min, long double max)
     return min + normalized * (max - min);
 }
 
+long double n_choose_r(long double n, long double r, std::unordered_map<int, long double> &memo)
+{
+    long double n_fact = factorial(n, memo);
+    long double r_fact = factorial(r, memo);
+    long double n_minus_r = factorial(n - r, memo);
+    return n_fact/(r_fact * n_minus_r);
+}
+
+long double n_permutations_r(long double n, long double r, std::unordered_map<int, long double> &memo)
+{
+    long double n_fact = factorial(n, memo);
+    long double n_minus_r = factorial(n - r, memo);
+    return n_fact/n_minus_r;
+}
+
 std::vector<std::string> tokenize(const std::string& instruction)
 {
     std::vector<std::string> tokens;

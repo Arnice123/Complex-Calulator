@@ -16,8 +16,8 @@ using std::string;
 
 int main(){
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Mean\n[6]-Standard Deviation\n[7]-Exponentiation\n[8]-Rooting\n[9]-Modulo\n[10]-Log\n[11]-Percentage\n[12]-Floor\n[13]-Ciel\n[14]-Absolute Value\n[15]-Factorial\n[16]-Fibonacci\n[17]-Sine\n[18]-Cosine\n[19]-Tangent\n[20]-Arcsine\n[21]-Arccosine\n[22]-Arctangent\n[23]-Random Number\n";
-    cout << "\nMore complext operations:\n[24]-Sum of\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Mean\n[6]-Standard Deviation\n[7]-Exponentiation\n[8]-Rooting\n[9]-Modulo\n[10]-Log\n[11]-Percentage\n[12]-Floor\n[13]-Ciel\n[14]-Absolute Value\n[15]-Factorial\n[16]-Fibonacci\n[17]-Sine\n[18]-Cosine\n[19]-Tangent\n[20]-Arcsine\n[21]-Arccosine\n[22]-Arctangent\n[23]-Random Number\n[24]-Combinations\n[25]-Permutations\n";
+    cout << "\nMore complext operations:\n[26]-Sum of\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -202,6 +202,28 @@ int main(){
         cin >> n;
         cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         result = random_num(i, n);
+    }
+    else if (op == NPR || op == NCR)
+    {
+        std::unordered_map<int, long double> memo;
+        long double n;
+        long double r;
+        cout << "Input n: ";
+        cin >> n;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        cout << "Input r: ";
+        cin >> r;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        switch(op)
+        {
+            case NCR:
+                result = n_choose_r(n, r, memo);
+                break;
+            case NPR:
+                result = n_permutations_r(n, r, memo);
+                break;
+        }
     }
     else if (op == SIG){
         long double i;

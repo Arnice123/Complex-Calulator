@@ -25,6 +25,8 @@ std::string operation_to_string(enum Operations op) {
         case ARCCOS: return "arccosine";
         case ARCTAN: return "arctangent";
         case RAN: return "random";
+        case NCR: return "n choose r";
+        case NPR: return "n permutations of r";
         case SIG: return "sum of";
         default: return "Unknown operation";
     }

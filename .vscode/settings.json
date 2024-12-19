@@ -57,6 +57,12 @@
         "xhash": "cpp",
         "deque": "cpp",
         "functional": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "chrono": "cpp",
+        "forward_list": "cpp",
+        "iomanip": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp"
     }
 }

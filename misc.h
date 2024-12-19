@@ -27,8 +27,10 @@ enum Operations {
     ARCCOS, // 21
     ARCTAN, // 22
     RAN, // 23
+    NCR, // 24
+    NPR, // 25
 
-    SIG, // 24
+    SIG, // 26
 };
 
 std::string operation_to_string(enum Operations op);

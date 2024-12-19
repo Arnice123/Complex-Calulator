@@ -44,6 +44,8 @@ long double arccosine(long double x, int terms, std::unordered_map<int, long dou
 long double arctangent(long double x, int terms, std::unordered_map<int, long double>& memo);
 long double round_up(long double value, int decimal_places);
 long double random_num(long double min, long double max);
+long double n_choose_r(long double n, long double r, std::unordered_map<int, long double> &memo);
+long double n_permutations_r(long double n, long double r, std::unordered_map<int, long double> &memo);
 
 // complex instructions
 std::vector<std::string> tokenize(const std::string& instruction);

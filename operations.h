@@ -42,6 +42,12 @@ long double tangent(long double x, int terms, std::unordered_map<int, long doubl
 long double arcsine(long double x, int terms, std::unordered_map<int, long double>& memo);
 long double arccosine(long double x, int terms, std::unordered_map<int, long double>& memo);
 long double arctangent(long double x, int terms, std::unordered_map<int, long double>& memo);
+long double h_sine(long double x);
+long double h_cosine(long double x);
+long double h_tangent(long double x);
+long double h_arcsine(long double x);
+long double h_arccosine(long double x);
+long double h_arctangent(long double x);
 long double round_up(long double value, int decimal_places);
 long double random_num(long double min, long double max);
 long double n_choose_r(long double n, long double r, std::unordered_map<int, long double> &memo);

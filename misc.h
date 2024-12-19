@@ -26,11 +26,17 @@ enum Operations {
     ARCSIN, // 20
     ARCCOS, // 21
     ARCTAN, // 22
-    RAN, // 23
-    NCR, // 24
-    NPR, // 25
+    HSIN, // 23
+    HCOS, // 24
+    HTAN, // 25
+    HARCSIN, // 26
+    HARCCOS, // 27
+    HARCTAN, // 28
+    RAN, // 29
+    NCR, // 30
+    NPR, // 31
 
-    SIG, // 26
+    SIG, // 32
 };
 
 std::string operation_to_string(enum Operations op);

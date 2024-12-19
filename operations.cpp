@@ -98,7 +98,7 @@ long double pow(long double base, long double exp)
 
 long double root(long double x, long double n, long double tolerance = 1e-200)
 {
-    if (x < 0 && static_cast<long long>(n) % 2 == 0) return -1;
+    if (x < 0 && modulo(n, 2) == 0) return -1;
     if (x == 0) return 0;
 
     long double approximation = x / 2;
@@ -323,6 +323,51 @@ long double arctangent(long double x, int terms, std::unordered_map<int, long do
     }
 
     return result;
+}
+
+long double h_sine(long double x)
+{
+    // (e^x - e^-x) / (2)
+    long double e_x = pow(M_E, x);
+    long double e_negative_x = 1 / e_x;
+    return (e_x - e_negative_x) / 2;
+}
+
+long double h_cosine(long double x)
+{
+    // (e^x + e^-x) / (2)
+    long double e_x = pow(M_E, x);
+    long double e_negative_x = 1 / e_x;
+    return (e_x + e_negative_x) / 2;
+}
+
+long double h_tangent(long double x)
+{
+    long double e_2x = pow(M_E, 2 * x);
+    return (e_2x - 1) / (e_2x + 1);
+}
+
+long double h_arcsine(long double x)
+{
+    // ln(x + sqrt(x^2+1))
+    long double x_sqrd = pow(x, 2);
+    long double sqrt = root(x_sqrd + 1, 2);
+    return log(x + sqrt, M_E);
+}
+
+long double h_arccosine(long double x)
+{
+    // ln(x + sqrt(x^2-1)) x >= 1
+    if (x < 1) return std::numeric_limits<long double>::quiet_NaN();
+    long double x_sqrd = pow(x, 2);
+    long double sqrt = root(x_sqrd - 1, 2);
+    return log(x + sqrt, M_E);
+}
+
+long double h_arctangent(long double x)
+{
+    if (x < -1 || x > 1) return std::numeric_limits<long double>::quiet_NaN();
+    return (log((x+1)/(x-1), M_E)) / 2
 }
 
 long double random_num(long double min, long double max)

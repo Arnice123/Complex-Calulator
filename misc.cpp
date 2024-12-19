@@ -24,6 +24,12 @@ std::string operation_to_string(enum Operations op) {
         case ARCSIN: return "arcsine";
         case ARCCOS: return "arccosine";
         case ARCTAN: return "arctangent";
+        case HSIN: return "hyperbolic sine";
+        case HCOS: return "hyperbolic cosine";
+        case HTAN: return "hyperbolic tangent";
+        case HARCSIN: return "hyperbolic arcsine";
+        case HARCCOS: return "hyperbolic arccosine";
+        case HARCTAN: return "hyperbolic arctangent";
         case RAN: return "random";
         case NCR: return "n choose r";
         case NPR: return "n permutations of r";

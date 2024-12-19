@@ -16,8 +16,12 @@ using std::string;
 
 int main(){
     long double operation;
-    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Mean\n[6]-Standard Deviation\n[7]-Exponentiation\n[8]-Rooting\n[9]-Modulo\n[10]-Log\n[11]-Percentage\n[12]-Floor\n[13]-Ciel\n[14]-Absolute Value\n[15]-Factorial\n[16]-Fibonacci\n[17]-Sine\n[18]-Cosine\n[19]-Tangent\n[20]-Arcsine\n[21]-Arccosine\n[22]-Arctangent\n[23]-Random Number\n[24]-Combinations\n[25]-Permutations\n";
-    cout << "\nMore complext operations:\n[26]-Sum of\n";
+    cout << "Enter an operation\n[1]-Add\n[2]-Subtract\n[3]-Division\n[4]-Multiplication\n[5]-Mean\n[6]-Standard Deviation\n[7]-Exponentiation\n";
+    cout << "[8]-Rooting\n[9]-Modulo\n[10]-Log\n[11]-Percentage\n[12]-Floor\n[13]-Ciel\n[14]-Absolute Value\n[15]-Factorial\n[16]-Fibonacci\n";
+    cout << "[17]-Sine\n[18]-Cosine\n[19]-Tangent\n[20]-Arcsine\n[21]-Arccosine\n[22]-Arctangent\n";
+    cout << "[23]-Hyperbolic Sine\n[24]-Hyperbolic Cosine\n[25]-Hyperbolic Tangent\n[26]-Hyperbolic Arcsine\n[27]-Hyperbolic Arccosine\n[28]-Hyperbolic Arctangent\n";
+    cout << "[29]-Random Number\n[30]-Combinations\n[21]-Permutations\n";
+    cout << "\nMore complext operations:\n[32]-Sum of\n";
     cin >> operation;
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -149,7 +153,7 @@ int main(){
                 break;
         }
     }
-    else if (op < RAN)
+    else if (op < HSIN)
     {
         long double first;
         long double second;
@@ -187,6 +191,36 @@ int main(){
             case ARCTAN:
                 result = round_up(arctangent(first, 100, val), 9);
                 result = (second) ? result * 180 / M_PI : result;
+                break;
+        }
+    }
+    else if (op < RAN)
+    {
+        long double x;
+        cout << "Input the number to be modified: ";
+        cin >> x;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::unordered_map<int, long double> memo;
+ 
+        switch(op)
+        {
+            case HSIN:
+                result = h_sine(x);
+                break;
+            case HCOS:
+                result = h_cosine(x);
+                break;
+            case HTAN:
+                result = h_tangent(x);
+                break;
+            case HARCSIN:
+                result = h_arcsine(x);
+                break;
+            case HARCCOS:
+                result = h_arccosine(x);
+                break;
+            case HARCTAN:
+                result = h_arctangent(x);
                 break;
         }
     }

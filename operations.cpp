@@ -323,7 +323,7 @@ std::vector<std::string> tokenize(const std::string& instruction)
 
         if (std::isdigit(ch) || ch == '.')
         {
-            token += ch;
+            token += ch; 
         }
         else
         {
@@ -348,45 +348,113 @@ std::vector<std::string> tokenize(const std::string& instruction)
 std::function<long double(long double)> parseInstruction(const std::string& instruction, std::unordered_map<int, long double> &memo)
 {
     auto tokens = tokenize(instruction);
-    std::function<long double(long double)> func = [](long double x) { return x; };
+    std::function<long double(long double)> func = [](long double ) { return 0; };
 
     for (size_t i = 0; i < tokens.size(); ++i)
     {
-        if (tokens[i] == "*")
+        if (tokens[i] == "(")
         {
-            long double multiplier = std::stold(tokens[++i]);
+            size_t prev_i = i;
+            auto subFunc = subFuncBuilder(i, tokens, memo);
             auto prevFunc = func;
-            func = [prevFunc, multiplier](long double x)
+            if (prev_i == 0)
             {
-                return prevFunc(x) * multiplier;
-            };
+                func = [prevFunc, subFunc](long double x)
+                {
+                    return prevFunc(x) + subFunc(x);
+                };
+            }
+            else{
+                func = [prevFunc, subFunc](long double x)
+                {
+                    return prevFunc(x) * subFunc(x);
+                };
+            }
+        }
+        else if (tokens[i] == "*")
+        {
+            if (tokens[i+1] == "(")
+            {
+                auto subFunc = subFuncBuilder(i, tokens, memo);
+                auto prevFunc = func;
+                func = [prevFunc, subFunc](long double x)
+                {
+                    return prevFunc(x) * subFunc(x);
+                };
+            }
+            else{
+                long double multiplier = (std::isalpha(tokens[++i][0])) ? std::numeric_limits<long double>::quiet_NaN() : std::stold(tokens[i]);
+                auto prevFunc = func;
+                func = [prevFunc, multiplier](long double x)
+                {
+                    if (multiplier != multiplier) return prevFunc(x) * x;
+                    return prevFunc(x) * multiplier;
+                };
+            }
+
         }
         else if (tokens[i] == "/")
         {
-            long double divisor = std::stold(tokens[++i]);
-            auto prevFunc = func;
-            func = [prevFunc, divisor](long double x)
+            if (tokens[i+1] == "(")
             {
-                return prevFunc(x) / divisor;
-            };
+                auto subFunc = subFuncBuilder(i, tokens, memo);
+                auto prevFunc = func;
+                func = [prevFunc, subFunc](long double x)
+                {
+                    return prevFunc(x) / subFunc(x);
+                };
+            }
+            else{
+                long double divisor = (std::isalpha(tokens[++i][0])) ? std::numeric_limits<long double>::quiet_NaN() : std::stold(tokens[i]);
+                auto prevFunc = func;
+                func = [prevFunc, divisor](long double x)
+                {
+                    if (divisor != divisor) return prevFunc(x) / x;
+                    return prevFunc(x) / divisor;
+                };
+            }
         }
         else if (tokens[i] == "+")
         {
-            long double adder = std::stold(tokens[++i]);
-            auto prevFunc = func;
-            func = [prevFunc, adder](long double x)
+            if (tokens[i+1] == "(")
             {
-                return prevFunc(x) + adder;
-            };
+                auto subFunc = subFuncBuilder(i, tokens, memo);
+                auto prevFunc = func;
+                func = [prevFunc, subFunc](long double x)
+                {
+                    return prevFunc(x) + subFunc(x);
+                };
+            }
+            else{
+                long double adder = (std::isalpha(tokens[++i][0])) ? std::numeric_limits<long double>::quiet_NaN() : std::stold(tokens[i]);
+                auto prevFunc = func;
+                func = [prevFunc, adder](long double x)
+                {
+                    if (adder != adder) return prevFunc(x) + x;
+                    return prevFunc(x) + adder;
+                };
+            }
         }
         else if (tokens[i] == "-")
         {
-            long double subtractor = std::stold(tokens[++i]);
-            auto prevFunc = func;
-            func = [prevFunc, subtractor](long double x)
+            if (tokens[i+1] == "(")
             {
-                return prevFunc(x) - subtractor;
-            };
+                auto subFunc = subFuncBuilder(i, tokens, memo);
+                auto prevFunc = func;
+                func = [prevFunc, subFunc](long double x)
+                {
+                    return prevFunc(x) - subFunc(x);
+                };
+            }
+            else{
+                long double subtractor = (std::isalpha(tokens[++i][0])) ? std::numeric_limits<long double>::quiet_NaN() : std::stold(tokens[i]);
+                auto prevFunc = func;
+                func = [prevFunc, subtractor](long double x)
+                {
+                    if (subtractor != subtractor) return prevFunc(x) - x;
+                    return prevFunc(x) - subtractor;
+                };
+            }
         }
         else if (tokens[i] == "!")
         {
@@ -398,34 +466,105 @@ std::function<long double(long double)> parseInstruction(const std::string& inst
         }
         else if (tokens[i] == "%")
         {
-            long double divisor = std::stold(tokens[++i]);
-            auto prevFunc = func;
-            func = [prevFunc, divisor](long double x)
+            if (tokens[i+1] == "(")
             {
-                return modulo(prevFunc(x), divisor);
-            };
+                auto subFunc = subFuncBuilder(i, tokens, memo);
+                auto prevFunc = func;
+                func = [prevFunc, subFunc](long double x)
+                {
+                    return modulo(prevFunc(x), subFunc(x));
+                };
+            }
+            else{
+                long double divisor = (std::isalpha(tokens[++i][0])) ? std::numeric_limits<long double>::quiet_NaN() : std::stold(tokens[i]);
+                auto prevFunc = func;
+                func = [prevFunc, divisor](long double x)
+                {
+                    if (divisor != divisor) return modulo(prevFunc(x), x);
+                    return modulo(prevFunc(x), divisor);
+                };
+            }
         }
         else if (tokens[i] == "^")
         {
-            long double power = std::stold(tokens[++i]);
-            auto prevFunc = func;
-            func = [prevFunc, power](long double x)
+            if (tokens[i+1] == "(")
             {
-                return pow(prevFunc(x), power);
-            };
+                auto subFunc = subFuncBuilder(i, tokens, memo);
+                auto prevFunc = func;
+                func = [prevFunc, subFunc](long double x)
+                {
+                    return pow(prevFunc(x), subFunc(x));
+                };
+            }
+            else{
+                long double power = (std::isalpha(tokens[++i][0])) ? std::numeric_limits<long double>::quiet_NaN() : std::stold(tokens[i]);
+                auto prevFunc = func;
+                func = [prevFunc, power](long double x)
+                {
+                    if (power != power) return pow(prevFunc(x), x);
+                    return pow(prevFunc(x), power);
+                };
+            }
         }
         else if (std::isdigit(tokens[i][0]) || tokens[i][0] == '.')
         {
             long double constant = std::stold(tokens[i]);
             auto prevFunc = func;
-            func = [prevFunc, constant](long double x)
+            if (i == 0)
             {
-                return prevFunc(x) * constant;
+                func = [prevFunc, constant](long double x)
+                {
+                    return prevFunc(x) + constant;
+                };
+            }
+            else{
+                func = [prevFunc, constant](long double x)
+                {
+                    return prevFunc(x) * constant;
+                };
+            }
+        }
+        else if (std::isalpha(tokens[i][0])) {
+            auto previousFunc = func;
+            func = [previousFunc](long double x) {
+                return previousFunc(x) + x;
             };
         }
     }
 
     return func;
+}
+
+std::function<long double(long double)> subFuncBuilder(size_t& i, std::vector<std::string> tokens, std::unordered_map<int, long double> &memo)
+{
+    int bracketCount = 1;
+    size_t j = i + 1;
+    while (j < tokens.size() && bracketCount > 0)
+    {
+        if (tokens[j] == "(") bracketCount++;
+        if (tokens[j] == ")") bracketCount--;
+        j++;
+    }
+
+    if (tokens[j] == "!") ++j;
+    std::vector<std::string> subTokens(tokens.begin() + i + 1, tokens.begin() + j - 1);
+    std::string subInstruction = join(subTokens, " ");
+    
+    auto subFunc = parseInstruction(subInstruction, memo);
+    i = j - 1;
+    return subFunc;
+}
+
+std::string join(const std::vector<std::string>& tokens, const std::string& delimiter)
+{
+    std::string result;
+    for (size_t i = 0; i < tokens.size(); ++i)
+    {
+        result += tokens[i];
+        if (i < tokens.size() - 1)
+            result += delimiter;
+    }
+    return result;
 }
 
 long double sigmaNotation(const std::string& instruction, long double i, long double n, std::unordered_map<int, long double> &memo)

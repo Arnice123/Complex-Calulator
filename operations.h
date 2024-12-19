@@ -44,6 +44,8 @@ long double round_up(long double value, int decimal_places);
 
 // complex instructions
 std::vector<std::string> tokenize(const std::string& instruction);
+std::string join(const std::vector<std::string>& tokens, const std::string& delimiter);
+std::function<long double(long double)> subFuncBuilder(size_t& i, std::vector<std::string> tokens, std::unordered_map<int, long double> &memo);
 std::function<long double(long double)> parseInstruction(const std::string& instruction, std::unordered_map<int, long double> &memo);
 long double sigmaNotation(const std::string& instruction, long double i, long double n, std::unordered_map<int, long double> &memo);
 
